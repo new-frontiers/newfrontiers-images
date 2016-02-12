@@ -1,0 +1,32 @@
+{
+    "name": "newfrontiers/images",
+    "type": "library",
+    "description": "Simple image modification library",
+    "keywords": [
+        "newfrontiers",
+        "images"
+    ],
+    "homepage": "https://github.com/new-frontiers/newfrontiers-images",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "new frontiers Software GmbH",
+            "email": "info@new-frontiers.de",
+            "homepage": "http://www.new-frontiers.de",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : "~5.5|~7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "NewFrontiers\\Images\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "NewFrontiers\\Images\\Test\\": "tests"
+        }
+    }
+}
