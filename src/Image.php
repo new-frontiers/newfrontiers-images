@@ -25,7 +25,6 @@ class Image
     }
 
 
-
     public function __destruct()
     {
         imagedestroy($this->src);
@@ -42,6 +41,8 @@ class Image
 
         if (strpos($filename, '.png') !== false) {
             $temp->setSrc(imagecreatefrompng($filename));
+        } elseif (strpos($filename, '.gif') !== false) {
+            $temp->setSrc(imagecreatefromgif($filename));
         } else {
             $temp->setSrc(imagecreatefromjpeg($filename));
         }
@@ -53,7 +54,8 @@ class Image
      * @param $resource
      * @return Image
      */
-    public static function fromResource($resource) {
+    public static function fromResource($resource)
+    {
 
         $temp = new Image();
         $temp->setSrc($resource);
@@ -65,12 +67,15 @@ class Image
     /**
      * @param $filename
      */
-    public function saveToFile($filename) {
+    public function saveToFile($filename)
+    {
 
         $pathinfo = pathinfo($filename);
 
         if ($pathinfo['extension'] === 'png') {
             imagepng($this->src, $filename);
+        } elseif ($pathinfo['extension'] === 'gif') {
+            imagegif($this->src, $filename);
         } else {
             imagejpeg($this->src, $filename);
         }
@@ -117,7 +122,7 @@ class Image
     public function rotate($angle)
     {
         if ($angle !== 0) {
-            $dest = imagerotate($this->src, 360-$angle, 0);
+            $dest = imagerotate($this->src, 360 - $angle, 0);
         }
         return Image::fromResource($dest);
 
@@ -183,7 +188,8 @@ class Image
      * @param $length
      * @return Image
      */
-    public function cropSquare($length) {
+    public function cropSquare($length)
+    {
 
         $width = imagesx($this->src);
         $height = imagesy($this->src);
@@ -204,7 +210,18 @@ class Image
         }
 
         $dest = imagecreatetruecolor($length, $length);
-        imagecopyresampled($dest, $this->src, 0, 0, $offsetX, $offsetY, $length, $length, $originalLength, $originalLength);
+        imagecopyresampled(
+            $dest,
+            $this->src,
+            0,
+            0,
+            $offsetX,
+            $offsetY,
+            $length,
+            $length,
+            $originalLength,
+            $originalLength
+        );
         return Image::fromResource($dest);
 
     }
