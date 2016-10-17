@@ -5,7 +5,6 @@
 
 namespace NewFrontiers\Images;
 
-
 class Image
 {
 
@@ -24,7 +23,9 @@ class Image
         return $this;
     }
 
-
+    /**
+     *
+     */
     public function __destruct()
     {
         imagedestroy($this->src);
@@ -56,11 +57,9 @@ class Image
      */
     public static function fromResource($resource)
     {
-
         $temp = new Image();
         $temp->setSrc($resource);
         return $temp;
-
     }
 
 
@@ -69,7 +68,6 @@ class Image
      */
     public function saveToFile($filename)
     {
-
         $pathinfo = pathinfo($filename);
 
         if ($pathinfo['extension'] === 'png') {
@@ -79,7 +77,6 @@ class Image
         } else {
             imagejpeg($this->src, $filename);
         }
-
     }
 
 
@@ -121,11 +118,11 @@ class Image
      */
     public function rotate($angle)
     {
+        $dest = $this;
         if ($angle !== 0) {
             $dest = imagerotate($this->src, 360 - $angle, 0);
         }
         return Image::fromResource($dest);
-
     }
 
     /**
@@ -162,7 +159,6 @@ class Image
         }
 
         return $this->resizeTo(round($width * $ratio), round($height * $ratio));
-
     }
 
     /**
@@ -181,7 +177,6 @@ class Image
         imagecopyresampled($dest, $this->src, 0, 0, $x, $y, $newWidth, $newHeight, $width, $height);
 
         return Image::fromResource($dest);
-
     }
 
     /**
@@ -223,8 +218,5 @@ class Image
             $originalLength
         );
         return Image::fromResource($dest);
-
     }
-
-
 }
