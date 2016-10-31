@@ -24,6 +24,21 @@ class Image
     }
 
     /**
+     * @return int
+     */
+    public function getHeight() {
+        return imagesy($this->src);
+    }
+
+    /**
+     * @return int
+     */
+    public function getWidth() {
+        return imagesx($this->src);
+    }
+
+
+    /**
      *
      */
     public function __destruct()
@@ -34,9 +49,14 @@ class Image
     /**
      * @param $filename
      * @return Image
+     * @throws \InvalidArgumentException
      */
     public static function fromFile($filename)
     {
+
+        if (!file_exists($filename)) {
+            throw new \InvalidArgumentException($filename . ' was not found');
+        }
 
         $temp = new Image();
 
@@ -107,7 +127,7 @@ class Image
      */
     public function colorize($red, $green, $blue)
     {
-        if (($red !== 0) or ($green !== 0) or ($blue !== 0)) {
+        if (($red !== 0) || ($green !== 0) || ($blue !== 0)) {
             imagefilter($this->src, IMG_FILTER_COLORIZE, $red, $green, $blue);
         }
     }
@@ -118,7 +138,7 @@ class Image
      */
     public function rotate($angle)
     {
-        $dest = $this;
+        $dest = $this->src;
         if ($angle !== 0) {
             $dest = imagerotate($this->src, 360 - $angle, 0);
         }
@@ -133,11 +153,7 @@ class Image
     public function resizeTo($width, $height)
     {
         $dest = imagecreatetruecolor($width, $height);
-
-        $img_width = imagesx($this->src);
-        $img_height = imagesy($this->src);
-
-        imagecopyresampled($dest, $this->src, 0, 0, 0, 0, $width, $height, $img_width, $img_height);
+        imagecopyresampled($dest, $this->src, 0, 0, 0, 0, $width, $height, $this->getWidth(), $this->getHeight());
 
         return Image::fromResource($dest);
     }
