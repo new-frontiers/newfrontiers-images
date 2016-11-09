@@ -9,7 +9,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @covers NewFrontiers\Images\Image::fromFile
+     * @covers \NewFrontiers\Images\Image::fromFile
      */
     public function testFromFileNonExisting()
     {
@@ -18,8 +18,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers NewFrontiers\Images\Image::getWidth
-     * @covers NewFrontiers\Images\mage::getHeight
+     * @covers \NewFrontiers\Images\Image::getWidth
+     * @covers \NewFrontiers\Images\Image::getHeight
      */
     public function testGetDimension()
     {
@@ -29,8 +29,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(256, $image->getHeight());
     }
 
+
     /**
-     * @covers NewFrontiers\Images\Image::resizeTo
+     * @covers \NewFrontiers\Images\Image::resizeTo
+     * @covers \NewFrontiers\Images\Image::fromFile
+     * @covers \NewFrontiers\Images\Image::fromResource
+     * @covers \NewFrontiers\Images\Image::__destruct
+     * @covers \NewFrontiers\Images\Image::setSrc
+     * @covers \NewFrontiers\Images\Image::getWidth
+     * @covers \NewFrontiers\Images\Image::getHeight
      */
     public function testResize()
     {
@@ -43,7 +50,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers NewFrontiers\Images\Image::resizeToMax
+     * @covers \NewFrontiers\Images\Image::resizeToMax
+     * @covers \NewFrontiers\Images\Image::resizeTo
+     * @covers \NewFrontiers\Images\Image::fromFile
+     * @covers \NewFrontiers\Images\Image::fromResource
+     * @covers \NewFrontiers\Images\Image::__destruct
+     * @covers \NewFrontiers\Images\Image::setSrc
+     * @covers \NewFrontiers\Images\Image::getWidth
+     * @covers \NewFrontiers\Images\Image::getHeight
      */
     public function testResizeToMax()
     {
