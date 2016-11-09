@@ -9,7 +9,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @covers Image::fromFile
+     * @covers NewFrontiers\Images\Image::fromFile
      */
     public function testFromFileNonExisting()
     {
@@ -18,8 +18,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Image::getWidth
-     * @covers Image::getHeight
+     * @covers NewFrontiers\Images\Image::getWidth
+     * @covers NewFrontiers\Images\mage::getHeight
      */
     public function testGetDimension()
     {
@@ -30,7 +30,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Image::resizeTo
+     * @covers NewFrontiers\Images\Image::resizeTo
      */
     public function testResize()
     {
@@ -43,7 +43,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Image::resizeToMax
+     * @covers NewFrontiers\Images\Image::resizeToMax
      */
     public function testResizeToMax()
     {
@@ -54,6 +54,4 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(512, $newImage->getWidth());
         $this->assertLessThan(512, $newImage->getHeight());
     }
-
-
 }
