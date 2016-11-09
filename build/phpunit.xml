@@ -4,7 +4,7 @@
          bootstrap="../tests/bootstrap.php"
          backupGlobals="false"
          backupStaticAttributes="false"
-         beStrictAboutCoversAnnotation="true"
+         beStrictAboutCoversAnnotation="false"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTestsThatDoNotTestAnything="true"
          beStrictAboutTodoAnnotatedTests="true"

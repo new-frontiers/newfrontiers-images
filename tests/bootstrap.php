@@ -9,7 +9,6 @@
 chdir(__DIR__ . '/../src');
 require __DIR__ . '/../vendor/autoload.php';
 
-
 // PHP Einstellungen anpassen
 setlocale(LC_ALL, 'german', 'de_DE', 'de', 'deu');
 date_default_timezone_set('Europe/Berlin');

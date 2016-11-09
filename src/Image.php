@@ -26,17 +26,18 @@ class Image
     /**
      * @return int
      */
-    public function getHeight() {
+    public function getHeight()
+    {
         return imagesy($this->src);
     }
 
     /**
      * @return int
      */
-    public function getWidth() {
+    public function getWidth()
+    {
         return imagesx($this->src);
     }
-
 
     /**
      *
@@ -53,7 +54,6 @@ class Image
      */
     public static function fromFile($filename)
     {
-
         if (!file_exists($filename)) {
             throw new \InvalidArgumentException($filename . ' was not found');
         }
@@ -105,6 +105,11 @@ class Image
      */
     public function brightness($modifier)
     {
+
+        if ((!is_int($modifier)) || ((int)$modifier < -255) || ((int)$modifier > 255)) {
+            throw new \InvalidArgumentException('Modifier must be an integer value between -255 and 255');
+        }
+
         if ($modifier !== 0) {
             imagefilter($this->src, IMG_FILTER_BRIGHTNESS, $modifier);
         }
