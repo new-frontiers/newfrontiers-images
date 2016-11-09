@@ -20,6 +20,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers \NewFrontiers\Images\Image::getWidth
      * @covers \NewFrontiers\Images\Image::getHeight
+     * @covers \NewFrontiers\Images\Image::fromFile
      */
     public function testGetDimension()
     {
@@ -35,6 +36,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \NewFrontiers\Images\Image::resizeTo
+     * @covers \NewFrontiers\Images\Image::fromResource
+     * @covers \NewFrontiers\Images\Image::setSrc
      */
     public function testResize()
     {
@@ -73,7 +76,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         // TODO: Check if files exist and are readible
     }
 
-
+    /**
+     * @covers \NewFrontiers\Images\Image::brightness
+     */
     public function testBrightness()
     {
         $image = Image::fromFile(__DIR__ . '/app.png');
@@ -83,26 +88,36 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $image->brightness('XYZ');
     }
 
-
+    /**
+     * @covers \NewFrontiers\Images\Image::contrast
+     */
     public function testContrast()
     {
         $image = Image::fromFile(__DIR__ . '/app.png');
         $image->contrast(100);
     }
 
-
+    /**
+     * @covers \NewFrontiers\Images\Image::colorize
+     */
     public function testColorize()
     {
         $image = Image::fromFile(__DIR__ . '/app.png');
         $image->colorize(100, 0, 0);
     }
 
+    /**
+     * @covers \NewFrontiers\Images\Image::rotate
+     */
     public function testRotate()
     {
         $image = Image::fromFile(__DIR__ . '/app.png');
         $image->rotate(100);
     }
 
+    /**
+     * @covers \NewFrontiers\Images\Image::crop
+     */
     public function testCrop()
     {
         $image = Image::fromFile(__DIR__ . '/app.png');
@@ -114,6 +129,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(100, $newImage->getHeight());
     }
 
+    /**
+     * @covers \NewFrontiers\Images\Image::cropSquare
+     */
     public function testCropSquare()
     {
         $image = Image::fromFile(__DIR__ . '/a9f54a31915697.5666acd712a3c.jpg');
