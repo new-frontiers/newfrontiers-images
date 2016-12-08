@@ -73,7 +73,10 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $image->saveToFile(__DIR__ . '/save.jpg');
         $image->saveToFile(__DIR__ . '/save.gif');
 
-        // TODO: Check if files exist and are readible
+        // TODO: Check if files  are readible
+        $this->assertFileExists(__DIR__ . '/save.png');
+        $this->assertFileExists(__DIR__ . '/save.jpg');
+        $this->assertFileExists(__DIR__ . '/save.gif');
     }
 
     /**
@@ -95,6 +98,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $image = Image::fromFile(__DIR__ . '/app.png');
         $image->contrast(100);
+
+        $this->assertTrue($image->getHeight() > 0);
     }
 
     /**
@@ -104,6 +109,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $image = Image::fromFile(__DIR__ . '/app.png');
         $image->colorize(100, 0, 0);
+
+        $this->assertTrue($image->getHeight() > 0);
     }
 
     /**
@@ -113,6 +120,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $image = Image::fromFile(__DIR__ . '/app.png');
         $image->rotate(100);
+
+        $this->assertTrue($image->getHeight() > 0);
     }
 
     /**
