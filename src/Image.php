@@ -8,6 +8,14 @@ namespace NewFrontiers\Images;
 class Image
 {
 
+    const ALIGN_LEFT = 0;
+    const ALIGN_RIGHT = 1;
+
+    const COLOR_BLACK = 0;
+    const COLOR_GRAY = 1;
+
+    const FONT_SANS = 'DejaVuSans.ttf';
+
     /**
      * @var resource
      */
@@ -21,6 +29,11 @@ class Image
     {
         $this->src = $src;
         return $this;
+    }
+
+    public function getSrc()
+    {
+        return $this->src;
     }
 
     /**
@@ -39,6 +52,7 @@ class Image
         return imagesx($this->src);
     }
 
+
     /**
      *
      */
@@ -54,6 +68,7 @@ class Image
      */
     public static function fromFile($filename)
     {
+
         if (!file_exists($filename)) {
             throw new \InvalidArgumentException($filename . ' was not found');
         }
@@ -105,9 +120,8 @@ class Image
      */
     public function brightness($modifier)
     {
-
-        if ((!is_int($modifier)) || ((int)$modifier < -255) || ((int)$modifier > 255)) {
-            throw new \InvalidArgumentException('Modifier must be an integer value between -255 and 255');
+        if (!is_numeric($modifier)) {
+            throw new \InvalidArgumentException('modifier hast to be int (-255 < x < 255)');
         }
 
         if ($modifier !== 0) {
@@ -239,5 +253,95 @@ class Image
             $originalLength
         );
         return Image::fromResource($dest);
+    }
+
+
+    /**
+     * (x,y) is the lower left corner!
+     *
+     * @param int $size
+     * @param int $angle
+     * @param int $x
+     * @param int $y
+     * @param int $col
+     * @param string $fontfile
+     * @param string $text
+     * @return Image
+     */
+    public function text($size, $angle, $x, $y, $col, $fontfile, $text, $align = self::ALIGN_LEFT)
+    {
+        // RIGHT-ALIGN
+        if ($align === self::ALIGN_RIGHT) {
+            $dimensions = imagettfbbox($size, $angle, $fontfile, $text);
+            $textWidth = abs($dimensions[4] - $dimensions[0]);
+            $x = $this->getWidth() - $textWidth - $x;
+        }
+
+        imagettftext($this->src, $size, $angle, $x, $y, $this->getColorByConst($col), $fontfile, $text);
+
+        return $this;
+    }
+
+
+    /**
+     * @param Image $src
+     * @param int $x
+     * @param int $y
+     * @return Image
+     */
+    public function addLayer(Image $src, $x, $y)
+    {
+        $srcX = 0;
+        $srcY = 0;
+        $srcWidth = $src->getWidth();
+        $srcHeight = $src->getHeight();
+
+        imagecopy($this->src, $src->getSrc(), $x, $y, $srcX, $srcY, $srcWidth, $srcHeight);
+
+        return $this;
+    }
+
+    /**
+     * @param Image $src
+     * @param int $x
+     * @param int $y
+     * @param int $width
+     * @param int $height
+     * @return Image
+     */
+    public function addAndResizeLayer(Image $src, $x, $y, $width, $height)
+    {
+        if (($src->getWidth() !== $width) || ($src->getHeight() !== $height)) {
+            $src = $src->resizeTo($width, $height);
+        }
+
+        return $this->addLayer($src, $x, $y);
+    }
+
+    /**
+     * @param $const
+     * @return int
+     */
+    private function getColorByConst($const)
+    {
+        if ($const === self::COLOR_BLACK) {
+            return imagecolorallocate($this->src, 0, 0, 0);
+        } elseif ($const === self::COLOR_GRAY) {
+            return imagecolorallocate($this->src, 128, 128, 128);
+        }
+        return 0;
+    }
+
+    /**
+     * @param $color
+     * @return $this
+     */
+    public function rectBorder($color)
+    {
+        $allocatedColor = $this->getColorByConst($color);
+
+        imagerectangle($this->src, 0, 0, $this->getWidth() - 1, $this->getHeight() - 1, $allocatedColor);
+
+        return $this;
     }
 }
